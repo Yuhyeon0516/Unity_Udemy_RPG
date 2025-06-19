@@ -1,14 +1,24 @@
-using UnityEngine;
-
-public class PlayerIdleState : EntityState
+public class PlayerIdleState : PlayerGroundedState
 {
-    public PlayerIdleState(Player player, StateMachine stateMachine, string stateName) : base(player, stateMachine, stateName)
+    public PlayerIdleState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
+    }
+
+    public override void Enter()
+    {
+        base.Enter();
+
+        player.SetVelocity(0, rb.linearVelocity.y);
     }
 
     public override void Update()
     {
         base.Update();
+
+        if (player.moveInput.x == player.facingDir && player.wallDetected)
+        {
+            return;
+        }
 
         if (player.moveInput.x != 0)
         {

@@ -1,8 +1,6 @@
-using UnityEngine;
-
-public class PlayerMoveState : EntityState
+public class PlayerMoveState : PlayerGroundedState
 {
-    public PlayerMoveState(Player player, StateMachine stateMachine, string stateName) : base(player, stateMachine, stateName)
+    public PlayerMoveState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
     }
 
@@ -10,9 +8,11 @@ public class PlayerMoveState : EntityState
     {
         base.Update();
 
-        if (player.moveInput.x == 0)
+        if (player.moveInput.x == 0 || player.wallDetected)
         {
             stateMachine.ChangeState(player.idleState);
         }
+
+        player.SetVelocity(player.moveInput.x * player.moveSpeed, rb.linearVelocity.y);
     }
 }
