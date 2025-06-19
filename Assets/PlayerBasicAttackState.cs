@@ -6,8 +6,10 @@ public class PlayerBasicAttackState : EntityState
     private float attackVelocityTimer;
 
     private const int FirstComboIndex = 1;
+    private int attackDir;
     private int comboIndex = 1;
     private int comboLimit = 3;
+    private bool comboAttackQueued;
 
     private float lastTimeAttacked;
 
@@ -24,7 +26,18 @@ public class PlayerBasicAttackState : EntityState
     {
         base.Enter();
 
+        comboAttackQueued = false;
+
         ResetComboIndexIfNeeded();
+
+        if (player.moveInput.x != 0)
+        {
+            attackDir = (int)(player.moveInput.x);
+        }
+        else
+        {
+            attackDir = player.facingDir;
+        }
 
         anim.SetInteger("BasicAttackIndex", comboIndex);
 
@@ -37,10 +50,12 @@ public class PlayerBasicAttackState : EntityState
 
         HandleAttackVelocity();
 
-        if (triggerCalled)
+        if (input.Player.Attack.WasPressedThisFrame())
         {
-            stateMachine.ChangeState(player.idleState);
+            QueueNextAttack();
         }
+
+        HandleStateExit();
     }
 
     public override void Exit()
@@ -50,6 +65,30 @@ public class PlayerBasicAttackState : EntityState
         comboIndex++;
 
         lastTimeAttacked = Time.time;
+    }
+
+    private void HandleStateExit()
+    {
+        if (triggerCalled)
+        {
+            if (comboAttackQueued)
+            {
+                anim.SetBool(animBoolName, false);
+                player.EnterAttackStateWithDelay();
+            }
+            else
+            {
+                stateMachine.ChangeState(player.idleState);
+            }
+        }
+    }
+
+    private void QueueNextAttack()
+    {
+        if (comboIndex < comboLimit)
+        {
+            comboAttackQueued = true;
+        }
     }
 
     private void ResetComboIndexIfNeeded()
@@ -79,6 +118,6 @@ public class PlayerBasicAttackState : EntityState
     {
         Vector2 attackVelocity = player.attackVelocity[comboIndex - 1];
         attackVelocityTimer = player.attackVelocityDuration;
-        player.SetVelocity(attackVelocity.x * player.facingDir, attackVelocity.y);
+        player.SetVelocity(attackVelocity.x * attackDir, attackVelocity.y);
     }
 }
