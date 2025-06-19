@@ -1,6 +1,4 @@
-using UnityEngine;
-
-public class PlayerFallState : EntityState
+public class PlayerFallState : PlayerAiredState
 {
     public PlayerFallState(Player player, StateMachine stateMachine, string animBoolName) : base(player, stateMachine, animBoolName)
     {
@@ -9,5 +7,10 @@ public class PlayerFallState : EntityState
     public override void Update()
     {
         base.Update();
+
+        if (player.groundDetected)
+        {
+            stateMachine.ChangeState(player.idleState);
+        }
     }
 }
