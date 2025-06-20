@@ -12,7 +12,7 @@ public class ParallexBackground : MonoBehaviour
     {
         mainCamera = Camera.main;
         cameraHalfWidth = mainCamera.orthographicSize * mainCamera.aspect;
-        CaculateImageLength();
+        InitializeLayer();
     }
 
     void Update()
@@ -32,7 +32,7 @@ public class ParallexBackground : MonoBehaviour
         }
     }
 
-    private void CaculateImageLength()
+    private void InitializeLayer()
     {
         foreach (ParallexLayer layer in backgroundLayers)
         {
