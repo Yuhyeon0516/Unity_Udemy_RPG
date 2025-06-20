@@ -1,5 +1,3 @@
-using UnityEngine;
-
 public abstract class PlayerState : EntityState
 {
     protected Player player;
