@@ -636,7 +636,7 @@ GameObject:
   - component: {fileID: 571807254}
   - component: {fileID: 571807256}
   - component: {fileID: 571807257}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: EnemySkeleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,6 +666,11 @@ MonoBehaviour:
   idleTime: 2
   moveSpeed: 1.4
   moveAnimSpeedMultiplier: 1
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 128
+  playerCheck: {fileID: 571807255}
+  playerCheckDistance: 10
 --- !u!4 &571807255
 Transform:
   m_ObjectHideFlags: 0
@@ -1442,13 +1447,13 @@ GameObject:
   - component: {fileID: 804832902}
   - component: {fileID: 804832904}
   - component: {fileID: 804832905}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Plyer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &804832902
 MonoBehaviour:
   m_ObjectHideFlags: 0
